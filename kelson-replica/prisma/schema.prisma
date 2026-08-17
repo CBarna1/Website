@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(EDITOR)
+  createdAt    DateTime @default(now())
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id             Int    @id @default(1)
+  tagline        String
+  blurb          String
+  about          String
+  phonePrimary   String
+  phoneSecondary String
+  address        String
+  hours          String
+}
+
+model Service {
+  id          String @id @default(cuid())
+  icon        String
+  title       String
+  description String
+  order       Int    @default(0)
+}
+
+model WhyChooseUsItem {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  order       Int    @default(0)
+}
+
+model ProcessStep {
+  id          String @id @default(cuid())
+  step        String
+  title       String
+  description String
+  order       Int    @default(0)
+}
+
+model Stat {
+  id     String @id @default(cuid())
+  value  Int
+  suffix String
+  label  String
+  order  Int    @default(0)
+}
+
+model Testimonial {
+  id    String @id @default(cuid())
+  name  String
+  role  String
+  quote String
+  order Int    @default(0)
+}
+
+model BlogPost {
+  id      String @id @default(cuid())
+  title   String
+  slug    String @unique
+  excerpt String
+  image   String @default("")
+  order   Int    @default(0)
+}
+
+model ClientLogo {
+  id    String @id @default(cuid())
+  name  String
+  src   String
+  order Int    @default(0)
+}
+
+model Brand {
+  id    String @id @default(cuid())
+  name  String
+  src   String
+  order Int    @default(0)
+}
