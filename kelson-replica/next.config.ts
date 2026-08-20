@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  allowedDevOrigins: ["start-camel-comm-capture.trycloudflare.com"],
+  allowedDevOrigins: [
+    "*.trycloudflare.com",
+  ],
 };
 
 export default nextConfig;

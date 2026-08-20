@@ -105,7 +105,7 @@ export default function ResourceManager({
   return (
     <div>
       <div className="flex items-center justify-between">
-        <p className="text-sm text-slate-500">{items.length} item{items.length === 1 ? "" : "s"}</p>
+        <p className="text-sm text-slate-600 dark:text-brand-300">{items.length} item{items.length === 1 ? "" : "s"}</p>
         {!showForm && (
           <button
             onClick={openCreate}
@@ -119,23 +119,23 @@ export default function ResourceManager({
       {showForm && (
         <form
           onSubmit={handleSubmit}
-          className="mt-4 rounded-xl border border-slate-200 bg-slate-50 p-5"
+          className="mt-4 rounded-xl border border-slate-200 dark:border-brand-800 bg-slate-50 dark:bg-brand-800 p-5"
         >
           <div className="flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-slate-900">
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-brand-100">
               {editingId ? "Edit item" : "New item"}
             </h3>
-            <button type="button" onClick={closeForm} className="text-slate-400 hover:text-slate-600">
+            <button type="button" onClick={closeForm} className="text-slate-400 dark:text-brand-400 hover:text-slate-600 dark:hover:text-brand-200">
               <X className="h-4 w-4" />
             </button>
           </div>
 
-          {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
+          {error && <p className="mt-2 text-sm text-red-600 dark:text-red-400">{error}</p>}
 
           <div className="mt-4 grid gap-4 sm:grid-cols-2">
             {fields.map((f) => (
               <div key={f.key} className={f.type === "textarea" ? "sm:col-span-2" : ""}>
-                <label className="text-xs font-medium uppercase tracking-wide text-slate-500">
+                <label className="text-xs font-medium uppercase tracking-wide text-slate-600 dark:text-brand-300">
                   {f.label}
                 </label>
                 {f.type === "textarea" ? (
@@ -144,13 +144,13 @@ export default function ResourceManager({
                     required
                     value={formData[f.key] ?? ""}
                     onChange={(e) => setFormData((d) => ({ ...d, [f.key]: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+                    className="mt-1 w-full rounded-lg border border-slate-300 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm text-slate-900 dark:text-brand-100 focus:border-brand-500 focus:outline-none"
                   />
                 ) : f.type === "select" ? (
                   <select
                     value={formData[f.key] ?? ""}
                     onChange={(e) => setFormData((d) => ({ ...d, [f.key]: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+                    className="mt-1 w-full rounded-lg border border-slate-300 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm text-slate-900 dark:text-brand-100 focus:border-brand-500 focus:outline-none"
                   >
                     {f.options?.map((o) => (
                       <option key={o} value={o}>
@@ -164,7 +164,7 @@ export default function ResourceManager({
                     required
                     value={formData[f.key] ?? ""}
                     onChange={(e) => setFormData((d) => ({ ...d, [f.key]: e.target.value }))}
-                    className="mt-1 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+                    className="mt-1 w-full rounded-lg border border-slate-300 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm text-slate-900 dark:text-brand-100 focus:border-brand-500 focus:outline-none"
                   />
                 )}
               </div>
@@ -180,42 +180,42 @@ export default function ResourceManager({
         </form>
       )}
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200">
+      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 dark:border-brand-800">
         <table className="w-full text-left text-sm">
-          <thead className="bg-slate-50 text-xs uppercase text-slate-500">
+          <thead className="bg-slate-100 dark:bg-brand-800 text-xs uppercase text-slate-700 dark:text-brand-300">
             <tr>
               <th className="px-4 py-3">Item</th>
               <th className="px-4 py-3 text-right">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-100">
+          <tbody className="divide-y divide-slate-100 dark:divide-brand-800 bg-white dark:bg-brand-900">
             {loading ? (
               <tr>
-                <td colSpan={2} className="px-4 py-6 text-center text-slate-400">
+                <td colSpan={2} className="px-4 py-6 text-center text-slate-500 dark:text-brand-400">
                   Loading...
                 </td>
               </tr>
             ) : items.length === 0 ? (
               <tr>
-                <td colSpan={2} className="px-4 py-6 text-center text-slate-400">
+                <td colSpan={2} className="px-4 py-6 text-center text-slate-500 dark:text-brand-400">
                   No items yet.
                 </td>
               </tr>
             ) : (
               items.map((item) => (
                 <tr key={String(item.id)}>
-                  <td className="px-4 py-3 text-slate-800">{String(item[displayField] ?? "")}</td>
+                  <td className="px-4 py-3 text-slate-900 dark:text-brand-100">{String(item[displayField] ?? "")}</td>
                   <td className="px-4 py-3">
                     <div className="flex justify-end gap-2">
                       <button
                         onClick={() => openEdit(item)}
-                        className="rounded-lg p-1.5 text-slate-500 hover:bg-slate-100 hover:text-brand-600"
+                        className="rounded-lg p-1.5 text-slate-600 dark:text-brand-400 hover:bg-slate-100 dark:hover:bg-brand-800 hover:text-brand-600 dark:hover:text-brand-200"
                       >
                         <Pencil className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(String(item.id))}
-                        className="rounded-lg p-1.5 text-slate-500 hover:bg-red-50 hover:text-red-600"
+                        className="rounded-lg p-1.5 text-slate-600 dark:text-brand-400 hover:bg-red-50 dark:hover:bg-red-900 hover:text-red-600 dark:hover:text-red-400"
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>

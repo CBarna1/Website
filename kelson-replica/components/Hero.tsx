@@ -44,25 +44,21 @@ export default function Hero({ tagline, blurb }: { tagline: string; blurb: strin
       />
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-gradient-to-br from-brand-900/92 via-brand-800/85 to-brand-600/75"
-      />
-      <div
-        aria-hidden="true"
-        className="motion-drift pointer-events-none absolute -right-24 -top-32 h-96 w-96 rounded-full bg-accent-500/20 blur-3xl"
+        className="absolute inset-0 bg-gradient-to-br from-brand-950/95 via-brand-900/88 to-brand-600/72"
       />
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-24 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
         <div className="motion-reveal relative">
           <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-brand-100">
             We are an IT service agency
           </span>
-          <h1 className="mt-6 text-4xl font-extrabold leading-tight text-white sm:text-5xl">
+          <h1 className="mt-6 max-w-xl text-balance text-4xl font-extrabold leading-tight text-white sm:text-5xl">
             {tagline}
           </h1>
-          <p className="mt-6 max-w-lg text-lg text-brand-100">{blurb}</p>
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-brand-100">{blurb}</p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/contact"
-              className="motion-pulse inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-800 shadow-lg transition hover:bg-brand-50"
+              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-800 shadow-lg transition hover:bg-brand-50"
             >
               Get a Quote <ArrowRight className="h-4 w-4" />
             </Link>

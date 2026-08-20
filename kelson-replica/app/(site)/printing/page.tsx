@@ -1,0 +1,8 @@
+import Link from "next/link";
+import PageHero from "@/components/PageHero";
+
+export const metadata = { title: "Printing Services | Kelson Innovations" };
+
+export default function PrintingPage() {
+  return <><PageHero title="Printing Services" breadcrumb="Printing Services" /><section className="px-4 py-16 sm:px-6 lg:px-8"><div className="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[1fr_0.8fr]"><div><p className="text-sm font-semibold uppercase tracking-wide text-brand-600">Print to your specification</p><h1 className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">Send your document and tell us how you want it produced.</h1><p className="mt-4 leading-relaxed text-slate-600 dark:text-slate-300">Upload a document, choose the finish, and our team will prepare a quote for your print job. Delivery can be added during checkout.</p><Link href="/checkout?printing=1" className="mt-8 inline-flex rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white hover:bg-brand-700">Start a print order</Link></div><div className="rounded-2xl border border-brand-100 bg-brand-50 p-7 dark:border-brand-800 dark:bg-brand-950/40"><h2 className="text-lg font-semibold text-slate-900 dark:text-white">We can quote for</h2><ul className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300"><li>Paper size, type, colour, and double-sided printing</li><li>Copies, binding, lamination, and finishing</li><li>Pickup or delivery to your address</li></ul></div></div></section></>;
+}

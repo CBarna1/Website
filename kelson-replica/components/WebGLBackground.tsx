@@ -17,6 +17,7 @@ uniform sampler2D u_texture;
 uniform float u_time;
 uniform vec2 u_scale;
 uniform float u_wash;
+uniform vec3 u_tint;
 varying vec2 v_uv;
 
 void main() {
@@ -24,8 +25,7 @@ void main() {
   vec2 drift = vec2(sin(u_time * 0.08) * 0.02, 0.0);
   vec2 uv = (v_uv - 0.5) * u_scale / zoom + 0.5 + drift;
   vec3 sampled = texture2D(u_texture, clamp(uv, 0.0, 1.0)).rgb;
-  vec3 darkWash = vec3(0.043, 0.067, 0.125);
-  vec3 color = mix(sampled, darkWash, u_wash);
+  vec3 color = mix(sampled, u_tint, u_wash);
   gl_FragColor = vec4(color, 1.0);
 }
 `;
@@ -42,10 +42,21 @@ function compileShader(gl: WebGLRenderingContext, type: number, source: string) 
   return shader;
 }
 
-export default function WebGLBackground({ src, wash = 0.2 }: { src: string; wash?: number }) {
+export default function WebGLBackground({
+  src,
+  wash = 0.2,
+  theme = "dark",
+  tint = theme === "light" ? [1, 1, 1] : [0.043, 0.067, 0.125],
+}: {
+  src: string;
+  wash?: number;
+  theme?: "dark" | "light";
+  tint?: [number, number, number];
+}) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [supported, setSupported] = useState(true);
   const [isDark, setIsDark] = useState(false);
+  const isVisible = theme === "dark" ? isDark : !isDark;
 
   // Only show behind the dark theme; react live to the Navbar toggle
   useEffect(() => {
@@ -57,7 +68,7 @@ export default function WebGLBackground({ src, wash = 0.2 }: { src: string; wash
   }, []);
 
   useEffect(() => {
-    if (!isDark) return;
+    if (!isVisible) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -99,6 +110,7 @@ export default function WebGLBackground({ src, wash = 0.2 }: { src: string; wash
     const timeLocation = context.getUniformLocation(program, "u_time");
     const scaleLocation = context.getUniformLocation(program, "u_scale");
     const washLocation = context.getUniformLocation(program, "u_wash");
+    const tintLocation = context.getUniformLocation(program, "u_tint");
     const textureLocation = context.getUniformLocation(program, "u_texture");
 
     const texture = context.createTexture();
@@ -157,6 +169,7 @@ export default function WebGLBackground({ src, wash = 0.2 }: { src: string; wash
       context.uniform1f(timeLocation, elapsed);
       context.uniform2f(scaleLocation, scaleX, scaleY);
       context.uniform1f(washLocation, wash);
+      context.uniform3f(tintLocation, tint[0], tint[1], tint[2]);
       context.activeTexture(context.TEXTURE0);
       context.bindTexture(context.TEXTURE_2D, texture);
       context.uniform1i(textureLocation, 0);
@@ -178,9 +191,9 @@ export default function WebGLBackground({ src, wash = 0.2 }: { src: string; wash
       context.deleteShader(fragmentShader);
       context.deleteBuffer(positionBuffer);
     };
-  }, [src, wash, isDark]);
+  }, [src, wash, tint, isVisible]);
 
-  if (!isDark) return null;
+  if (!isVisible) return null;
 
   if (!supported) {
     return (
@@ -189,10 +202,13 @@ export default function WebGLBackground({ src, wash = 0.2 }: { src: string; wash
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('${src}')` }}
         />
-        <div className="absolute inset-0" style={{ backgroundColor: `rgba(11,17,32,${wash})` }} />
+        <div
+          className="absolute inset-0"
+          style={{ backgroundColor: `rgba(${tint[0] * 255},${tint[1] * 255},${tint[2] * 255},${wash})` }}
+        />
       </div>
     );
   }
 
-  return <canvas ref={canvasRef} aria-hidden="true" className="fixed inset-0 -z-10 h-full w-full" />;
+  return <canvas ref={canvasRef} aria-hidden="true" className="fixed inset-0 z-0 h-full w-full" style={{ display: "block" }} />;
 }

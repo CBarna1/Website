@@ -33,6 +33,8 @@ export default async function Home() {
       getClientLogos(),
     ]);
 
+  const processAnimationKey = Date.now();
+
   return (
     <>
       <Hero tagline={settings.tagline} blurb={settings.blurb} />
@@ -45,9 +47,12 @@ export default async function Home() {
       >
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
-            <div key={service.id} className="motion-reveal" style={{ animationDelay: `${index * 90}ms` }}>
-              <ServiceCard
+            <div
               key={service.id}
+              className="motion-reveal"
+              style={{ animationDelay: `${index * 90}ms`, ["--card-delay" as string]: `${index * 900}ms` }}
+            >
+              <ServiceCard
               icon={getIcon(service.icon)}
               title={service.title}
               description={service.description}
@@ -98,8 +103,8 @@ export default async function Home() {
           {whyChooseUs.map((item, index) => (
             <div
               key={item.id}
-              className="motion-reveal rounded-2xl border border-slate-200 bg-white p-7 text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lg dark:border-slate-700/60 dark:bg-slate-900/40 dark:backdrop-blur-md"
-              style={{ animationDelay: `${index * 90}ms` }}
+              className="site-card-float rounded-2xl border border-slate-200 bg-white p-7 text-left shadow-sm transition duration-300 hover:-translate-y-1 hover:border-brand-200 hover:shadow-lg dark:border-slate-700/60 dark:bg-slate-900/40 dark:backdrop-blur-md"
+              style={{ ["--card-delay" as string]: `${index * 900}ms` }}
             >
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{item.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{item.description}</p>
@@ -120,29 +125,41 @@ export default async function Home() {
           title="How we work for our customers"
           className="!py-0"
         >
-          <div className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-            {workingProcess.map((step, index) => (
-              <div
-                key={step.id}
-                className="motion-reveal relative text-left"
-                style={{ animationDelay: `${index * 120}ms` }}
-              >
-                <span className="text-4xl font-extrabold text-brand-200">{step.step}</span>
-                {index < workingProcess.length - 1 && (
-                  <span aria-hidden="true" className="absolute left-12 top-7 hidden h-px w-[calc(100%-2rem)] bg-brand-200 lg:block" />
-                )}
-                <h3 className="mt-3 text-lg font-semibold text-slate-900 dark:text-white">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{step.description}</p>
-              </div>
-            ))}
+          <div className="process-track relative mt-12">
+            <div key={processAnimationKey} className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+              {workingProcess.map((step, index) => (
+                <div key={step.id}>
+                  <div
+                    className="process-step relative text-left"
+                    style={{
+                      ["--step-index" as string]: index,
+                    }}
+                  >
+                    <div className="process-step-marker">
+                      <span className="text-4xl font-extrabold text-brand-200">{step.step}</span>
+                    </div>
+                    <div className="process-copy process-copy-wave mt-3 rounded-[1.65rem] border border-brand-100 bg-white/75 p-5 shadow-[0_12px_30px_rgba(47,95,255,0.08)] ring-1 ring-brand-200/50 dark:border-brand-800 dark:bg-slate-900/40 dark:shadow-[0_14px_40px_rgba(47,95,255,0.13)]">
+                      <h3 className="text-lg font-semibold text-slate-900 dark:text-white">{step.title}</h3>
+                      <p className="process-text mt-2 text-sm leading-relaxed text-slate-600 dark:text-slate-300">{step.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </Section>
       </section>
 
       <Section eyebrow="Testimonials" title="Here is what our customers have said">
         <div className="mt-12 grid gap-6 sm:grid-cols-2">
-          {testimonials.map((t) => (
-            <TestimonialCard key={t.id} name={t.name} role={t.role} quote={t.quote} />
+          {testimonials.map((t, index) => (
+            <TestimonialCard
+              key={t.id}
+              name={t.name}
+              role={t.role}
+              quote={t.quote}
+              animationDelay={`${index * 180}ms`}
+            />
           ))}
         </div>
       </Section>
@@ -150,8 +167,15 @@ export default async function Home() {
       <section className="bg-slate-50 py-20 dark:bg-transparent">
         <Section eyebrow="Blog" title="Our latest blog" className="!py-0">
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {blogPosts.map((post) => (
-              <BlogCard key={post.id} title={post.title} slug={post.slug} excerpt={post.excerpt} image={post.image} />
+            {blogPosts.map((post, index) => (
+              <BlogCard
+                key={post.id}
+                title={post.title}
+                slug={post.slug}
+                excerpt={post.excerpt}
+                image={post.image}
+                animationDelay={`${index * 900}ms`}
+              />
             ))}
           </div>
         </Section>

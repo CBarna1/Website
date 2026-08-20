@@ -49,6 +49,43 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
+form:has(input[name="fileName"]) input[name="fileName"],
+form:has(input[name="fileName"]) input[name="copies"],
+form:has(input[name="fileName"]) select[name="paperSize"],
+form:has(input[name="fileName"]) select[name="colorMode"],
+form:has(input[name="fileName"]) select[name="sides"],
+form:has(input[name="fileName"]) select[name="finishing"],
+form:has(input[name="fileName"]) textarea[name="printInstructions"] {
+  border-color: #cbd5e1;
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+.dark form:has(input[name="fileName"]) input[name="fileName"],
+.dark form:has(input[name="fileName"]) input[name="copies"],
+.dark form:has(input[name="fileName"]) select[name="paperSize"],
+.dark form:has(input[name="fileName"]) select[name="colorMode"],
+.dark form:has(input[name="fileName"]) select[name="sides"],
+.dark form:has(input[name="fileName"]) select[name="finishing"],
+.dark form:has(input[name="fileName"]) textarea[name="printInstructions"] {
+  border-color: #475569;
+  background-color: rgb(15 23 42 / 0.38);
+  backdrop-filter: blur(14px);
+  color: #f8fafc;
+}
+
+.dark form:has(input[name="fileName"]) select option {
+  background-color: #172033;
+  color: #f8fafc;
+}
+
+.dark form:has(input[name="fileName"]) > div:has(input[name="fileName"]) {
+  border-color: rgb(148 163 184 / 0.35);
+  background: rgb(15 23 42 / 0.24);
+  backdrop-filter: blur(18px) saturate(125%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 16px 36px rgb(2 6 23 / 0.16);
+}
+
 @keyframes hero-drift {
   0%,
   100% {
@@ -87,6 +124,33 @@ body {
   animation: hero-drift 14s ease-in-out infinite;
 }
 
+.light-background-gradient {
+  background: linear-gradient(
+    115deg,
+    transparent 0%,
+    rgb(47 95 255 / 0.04) 28%,
+    rgb(167 139 250 / 0.2) 48%,
+    rgb(96 165 250 / 0.12) 58%,
+    transparent 82%
+  );
+  background-size: 220% 100%;
+  mix-blend-mode: multiply;
+  opacity: 0.8;
+  animation: light-gradient-pass 18s ease-in-out infinite;
+}
+
+@keyframes light-gradient-pass {
+  0%,
+  58%,
+  100% {
+    background-position: 130% 0;
+  }
+
+  76% {
+    background-position: -30% 0;
+  }
+}
+
 .motion-reveal {
   animation: reveal-up 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
@@ -96,8 +160,19 @@ body {
 }
 
 .hero-solution-wave {
-  animation: hero-solution-wave 4.8s ease-in-out infinite;
+  animation: hero-solution-wave 7s ease-in-out infinite;
   animation-delay: var(--wave-delay, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
 }
 
 .flip-card {
@@ -201,6 +276,184 @@ body {
   }
 }
 
+@keyframes service-card-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes service-card-flow {
+  0% {
+    transform: translateX(-24%) scaleX(0.8);
+    opacity: 0;
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  50% {
+    transform: translateX(20%) scaleX(1.08);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateX(26%) scaleX(1.12);
+    opacity: 0;
+  }
+}
+
+.service-card-float {
+  animation: service-card-float 6s ease-in-out infinite;
+}
+
+.service-card-flow {
+  animation: service-card-flow 6s ease-in-out infinite;
+}
+
+.site-card-float {
+  animation: site-card-float 6s ease-in-out infinite;
+  animation-delay: var(--card-delay, 0ms);
+}
+
+@keyframes site-card-float {
+  0%,
+  58%,
+  100% {
+    transform: translateY(0);
+  }
+
+  20% {
+    transform: translateY(-10px);
+  }
+
+  38% {
+    transform: translateY(0);
+  }
+}
+
+.process-track {
+  position: relative;
+}
+
+.process-track > div {
+  isolation: isolate;
+}
+
+.process-step {
+  position: relative;
+  z-index: 1;
+  opacity: 0;
+  transform: translateY(16px) scale(0.96);
+  animation: process-pop 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--step-index, 0) * 0.4s);
+}
+
+.process-step-marker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.2rem 0.9rem;
+  border-radius: 9999px;
+  background: linear-gradient(135deg, rgba(47, 95, 255, 0.12), rgba(130, 171, 255, 0.18));
+  border: 1px solid rgba(130, 171, 255, 0.45);
+  box-shadow: inset 0 0 18px rgba(130, 171, 255, 0.18), 0 0 0 1px rgba(47, 95, 255, 0.08), 0 10px 28px rgba(47, 95, 255, 0.08);
+}
+
+.process-step-marker::before {
+  content: "";
+  position: absolute;
+  inset: -8px -12px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at center, rgba(82, 133, 255, 0.28), rgba(82, 133, 255, 0.08) 52%, transparent 72%);
+  filter: blur(8px);
+  opacity: 0.9;
+}
+
+.process-copy {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(238, 244, 255, 0.8));
+}
+
+.dark .process-copy {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.72), rgba(19, 34, 80, 0.72));
+}
+
+.process-copy::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(82, 133, 255, 0.15);
+  box-shadow: inset 0 0 20px rgba(82, 133, 255, 0.12), 0 0 0 1px rgba(82, 133, 255, 0.08);
+}
+
+.process-text {
+  position: relative;
+  display: inline-block;
+  overflow: visible;
+  white-space: normal;
+  max-width: 100%;
+}
+
+@keyframes process-pop {
+  0% {
+    opacity: 0;
+    transform: translateY(16px) scale(0.96);
+  }
+
+  60% {
+    opacity: 1;
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.process-arrow {
+  opacity: 0;
+  animation: arrow-reveal 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--step-index, 0) * 0.4s + 0.8s);
+}
+
+@keyframes arrow-reveal {
+  0% {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes process-card-float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.process-copy-wave {
+  animation: process-card-float 5s ease-in-out infinite;
+}
+
 .client-marquee {
   animation: client-marquee 28s linear infinite;
 }
@@ -272,4 +525,37 @@ body {
   .hero-solution-wave {
     animation: none;
   }
+}
+
+/* Custom Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-brand-600);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+  transition: background-color 200ms ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-brand-500);
+  background-clip: content-box;
+}
+
+/* Firefox Scrollbar */
+* {
+  scrollbar-color: var(--color-brand-600) transparent;
+  scrollbar-width: thin;
+}
+
+*:hover {
+  scrollbar-color: var(--color-brand-500) transparent;
 }

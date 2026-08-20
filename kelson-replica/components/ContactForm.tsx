@@ -34,7 +34,11 @@ export default function ContactForm() {
 
   if (status === "success") {
     return (
-      <div className="rounded-2xl border border-brand-200 bg-brand-50 p-8 text-center dark:border-brand-800 dark:bg-brand-950/40">
+      <div
+        role="status"
+        aria-live="polite"
+        className="rounded-2xl border border-brand-200 bg-brand-50 p-8 text-center dark:border-brand-800 dark:bg-brand-950/40"
+      >
         <h3 className="text-lg font-semibold text-brand-800 dark:text-brand-200">Thank you!</h3>
         <p className="mt-2 text-sm text-brand-700 dark:text-brand-300">
           Your message has been received. Our team will get back to you shortly.
@@ -46,10 +50,11 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
+      aria-busy={status === "submitting"}
       className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm dark:border-slate-700/60 dark:bg-slate-900/40 dark:backdrop-blur-md"
     >
       {status === "error" && (
-        <div className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
+        <div role="alert" aria-live="assertive" className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
           {error}
         </div>
       )}

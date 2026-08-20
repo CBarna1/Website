@@ -1,5 +1,7 @@
 ﻿import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import PageLoader from "@/components/PageLoader";
+import CartProvider from "@/components/CartProvider";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className="h-full antialiased" suppressHydrationWarning>
       <head>
@@ -27,7 +29,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       </head>
       <body className="min-h-full flex flex-col">
         <PageLoader />
-        {children}
+        <CartProvider>{children}</CartProvider>
       </body>
     </html>
   );

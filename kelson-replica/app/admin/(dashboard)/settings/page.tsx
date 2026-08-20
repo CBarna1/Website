@@ -39,7 +39,7 @@ export default function SettingsPage() {
   }
 
   if (loading || !settings) {
-    return <p className="text-sm text-slate-400">Loading...</p>;
+    return <p className="text-sm text-brand-400">Loading...</p>;
   }
 
   const fields: { key: keyof Settings; label: string; textarea?: boolean }[] = [
@@ -54,33 +54,33 @@ export default function SettingsPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-slate-900">Site Settings</h1>
-      <p className="mt-1 text-sm text-slate-500">
+      <h1 className="text-2xl font-bold text-slate-900 dark:text-brand-100">Site Settings</h1>
+      <p className="mt-1 text-sm text-slate-600 dark:text-brand-300">
         Edit the company text shown across the public site.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-6 max-w-2xl space-y-4">
         {saved && (
-          <div className="rounded-lg border border-green-200 bg-green-50 px-3 py-2 text-sm text-green-700">
+          <div className="rounded-lg border border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-900 px-3 py-2 text-sm text-green-700 dark:text-green-200">
             Settings saved.
           </div>
         )}
         {fields.map((f) => (
           <div key={f.key}>
-            <label className="text-sm font-medium text-slate-700">{f.label}</label>
+            <label className="text-sm font-medium text-slate-700 dark:text-brand-200">{f.label}</label>
             {f.textarea ? (
               <textarea
                 rows={3}
                 value={settings[f.key]}
                 onChange={(e) => setSettings({ ...settings, [f.key]: e.target.value })}
-                className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+                className="mt-1.5 w-full rounded-lg border border-slate-300 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm text-slate-900 dark:text-brand-100 focus:border-brand-500 focus:outline-none"
               />
             ) : (
               <input
                 type="text"
                 value={settings[f.key]}
                 onChange={(e) => setSettings({ ...settings, [f.key]: e.target.value })}
-                className="mt-1.5 w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand-500 focus:outline-none"
+                className="mt-1.5 w-full rounded-lg border border-slate-300 dark:border-brand-700 bg-white dark:bg-brand-900 px-3 py-2 text-sm text-slate-900 dark:text-brand-100 focus:border-brand-500 focus:outline-none"
               />
             )}
           </div>

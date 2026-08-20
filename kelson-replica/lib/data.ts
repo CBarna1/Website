@@ -44,10 +44,19 @@ export async function getBrands() {
   return prisma.brand.findMany({ orderBy: { order: "asc" } });
 }
 
+export async function getProducts() {
+  return prisma.product.findMany({ where: { active: true }, orderBy: { order: "asc" } });
+}
+
+export async function getProductBySlug(slug: string) {
+  return prisma.product.findUnique({ where: { slug, active: true } });
+}
+
 export const nav = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
   { label: "Our Services", href: "/services" },
+  { label: "Products & Services", href: "/products" },
   { label: "Brands we Stock", href: "/brands" },
   { label: "Contact Us", href: "/contact" },
   { label: "Support", href: "/support" },

@@ -1,4 +1,5 @@
 ﻿import { NextResponse } from "next/server";
+import { sendContactNotification } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
 
 export async function POST(request: Request) {
@@ -15,6 +16,16 @@ export async function POST(request: Request) {
   const submission = await prisma.contactSubmission.create({
     data: { name, email, subject, message },
   });
+
+  try {
+    await sendContactNotification({ name, email, subject, message });
+  } catch (error) {
+    console.error("Failed to send contact notification email", error);
+    return NextResponse.json(
+      { error: "Your message was saved, but we could not send the email notification. Please try again later." },
+      { status: 503 },
+    );
+  }
 
   return NextResponse.json({ ok: true, id: submission.id }, { status: 201 });
 }

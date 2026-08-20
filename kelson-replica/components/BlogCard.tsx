@@ -7,14 +7,19 @@ export default function BlogCard({
   slug,
   excerpt,
   image,
+  animationDelay,
 }: {
   title: string;
   slug: string;
   excerpt: string;
   image?: string;
+  animationDelay?: string;
 }) {
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-700/60 dark:bg-slate-900/40 dark:backdrop-blur-md">
+    <article
+      className="site-card-float flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-700/60 dark:bg-slate-900/40 dark:backdrop-blur-md"
+      style={{ ["--card-delay" as string]: animationDelay }}
+    >
       {image ? (
         <div className="relative h-40">
           <Image src={image} alt={title} fill className="object-cover" />

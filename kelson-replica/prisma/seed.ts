@@ -7,15 +7,17 @@ const prisma = new PrismaClient();
 
 async function main() {
   const pwFile = path.join(process.cwd(), ".seed-admin-password.txt");
+  const hasExplicitPassword = existsSync(pwFile) || Boolean(process.env.SEED_ADMIN_PASSWORD);
   const adminPassword = existsSync(pwFile)
     ? readFileSync(pwFile, "utf-8").trim()
     : process.env.SEED_ADMIN_PASSWORD ?? "ChangeMe123!";
 
-  const passwordHash = await bcrypt.hash(adminPassword, 10);
+  const existingAdmin = await prisma.user.findUnique({ where: { email: "admin@kelson.co.zm" } });
+  const passwordHash = hasExplicitPassword ? await bcrypt.hash(adminPassword, 10) : existingAdmin?.passwordHash ?? await bcrypt.hash(adminPassword, 10);
 
   await prisma.user.upsert({
     where: { email: "admin@kelson.co.zm" },
-    update: { passwordHash },
+    update: hasExplicitPassword ? { passwordHash } : {},
     create: {
       email: "admin@kelson.co.zm",
       name: "Site Administrator",
@@ -50,8 +52,8 @@ async function main() {
         { icon: "Wrench", title: "Onsite and Remote IT Services", description: "We specialize in providing comprehensive IT services tailored for firms without an in-house IT department, offering both onsite and remote support.", order: 2 },
         { icon: "Code2", title: "Development & Digitization", description: "Full-stack development, custom scripting, and digitization services leveraging Microsoft Power Platform and other tools to modernize your processes.", order: 3 },
         { icon: "CloudUpload", title: "Deployment & Migration", description: "Expert deployment and migration services, including Azure Endpoint management, MDM, ATP, and Intune, ensuring seamless transitions and optimal performance.", order: 4 },
-        { icon: "Building2", title: "Infrastructure Services", description: "Comprehensive infrastructure services covering Wi-Fi deployments, managed firewall solutions, and data center deployments with HPE, Dell, Lenovo, and NetApp.", order: 5 },
-        { icon: "HardDrive", title: "Extended Hardware Support", description: "Extended hardware support including out-of-warranty services, local spares depot, and cross-platform enterprise hardware support from HP, Dell, IBM, EMC, Cisco, and more.", order: 6 },
+        { icon: "Building2", title: "Infrastructure Services", description: "Comprehensive infrastructure services covering Wi-Fi deployments, managed firewall solutions, and data center deployments with HPE, Dell, and Lenovo.", order: 5 },
+        { icon: "HardDrive", title: "Extended Hardware Support", description: "Extended hardware support including out-of-warranty services, local spares depot, and cross-platform enterprise hardware support from HP, Dell, EMC, Cisco, and more.", order: 6 },
         { icon: "Handshake", title: "Third-Party Fault Resolution", description: "We coordinate with third-party vendors for fault resolution or hardware replacement, ensuring prompt and efficient resolution of any issues.", order: 7 },
         { icon: "Hotel", title: "Hotel Management Solutions", description: "Expert setup and ongoing support for Opera PMS, Opera S&C, Oracle Hospitality, Simphony and other systems, optimizing hotel operations and guest experiences.", order: 8 },
       ],
@@ -126,9 +128,60 @@ async function main() {
         { name: "Bwino Milling Co. Ltd", src: "/clients/bwino-milling.webp", order: 0 },
         { name: "Mimosa Resources", src: "/clients/mimosa-resources.jpg", order: 1 },
         { name: "Zam Trade Sales Management", src: "/clients/zam-trade.webp", order: 2 },
-        { name: "Copper Valley", src: "/clients/copper-valley.webp", order: 3 },
         { name: "HCAZ - Lusaka Hospitality", src: "/clients/lusaka-hospitality.webp", order: 4 },
         { name: "Kariba", src: "/clients/kariba.png", order: 5 },
+      ],
+    });
+  }
+
+  const additionalClients = [
+    { name: "Zambian Cancer Society", src: "/clients/zcs-logo42-01-1-e1661881394942.png", order: 6 },
+    { name: "Aquarite Purified Water", src: "/clients/OIP.webp", order: 7 },
+    { name: "Southern Sun Ridgeway", src: "/clients/5f49543d8d9c2.png", order: 8 },
+    { name: "Zambia Air Force", src: "/clients/206-2065514_zambia-air-force-logo.png", order: 9 },
+    { name: "R Client", src: "/clients/R.png", order: 10 },
+  ];
+
+  for (const client of additionalClients) {
+    const existingClient = await prisma.clientLogo.findFirst({ where: { src: client.src } });
+    if (existingClient) {
+      await prisma.clientLogo.update({ where: { id: existingClient.id }, data: client });
+    } else {
+      await prisma.clientLogo.create({ data: client });
+    }
+  }
+
+  const productCount = await prisma.product.count();
+  if (productCount === 0) {
+    await prisma.product.createMany({
+      data: [
+        {
+          name: "Business Laptop",
+          slug: "business-laptop",
+          description: "Reliable business laptop configuration for everyday office work and managed IT environments.",
+          price: 18500,
+          category: "Computers",
+          stock: 5,
+          order: 0,
+        },
+        {
+          name: "Wireless Access Point",
+          slug: "wireless-access-point",
+          description: "Business-grade wireless access point for dependable office connectivity.",
+          price: 3200,
+          category: "Networking",
+          stock: 12,
+          order: 1,
+        },
+        {
+          name: "Managed Support Starter Plan",
+          slug: "managed-support-starter-plan",
+          description: "A practical monthly support starting point for small teams that need reliable IT assistance.",
+          price: 2500,
+          category: "Services",
+          stock: 0,
+          order: 2,
+        },
       ],
     });
   }
@@ -141,17 +194,15 @@ async function main() {
         { name: "Dell", src: "/brands/dell.png", order: 1 },
         { name: "Hewlett Packard Enterprise", src: "/brands/hpe.png", order: 2 },
         { name: "Cisco", src: "/brands/cisco.png", order: 3 },
-        { name: "IBM", src: "/brands/ibm.png", order: 4 },
-        { name: "Microsoft", src: "/brands/microsoft.png", order: 5 },
-        { name: "NetApp", src: "/brands/netapp.png", order: 6 },
-        { name: "Oracle", src: "/brands/oracle.png", order: 7 },
-        { name: "Fujitsu", src: "/brands/fujitsu.png", order: 8 },
-        { name: "Hitachi", src: "/brands/hitachi.jpg", order: 9 },
-        { name: "Juniper Networks", src: "/brands/juniper.png", order: 10 },
-        { name: "Ubiquiti", src: "/brands/ubiquiti.jpg", order: 11 },
-        { name: "Nortel", src: "/brands/nortel.png", order: 12 },
-        { name: "Epson", src: "/brands/epson.jpg", order: 13 },
-        { name: "Symphony", src: "/brands/symphony.png", order: 14 },
+        { name: "Microsoft", src: "/brands/microsoft.png", order: 4 },
+        { name: "Oracle", src: "/brands/oracle.png", order: 5 },
+        { name: "Fujitsu", src: "/brands/fujitsu.png", order: 6 },
+        { name: "Hitachi", src: "/brands/hitachi.jpg", order: 7 },
+        { name: "Juniper Networks", src: "/brands/juniper.png", order: 8 },
+        { name: "Ubiquiti", src: "/brands/ubiquiti.jpg", order: 9 },
+        { name: "Nortel", src: "/brands/nortel.png", order: 10 },
+        { name: "Epson", src: "/brands/epson.jpg", order: 11 },
+        { name: "Symphony", src: "/brands/symphony.png", order: 12 },
       ],
     });
   }
