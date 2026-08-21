@@ -19,16 +19,16 @@ export async function requireSession(role?: "ADMIN"): Promise<SessionPayload | n
   return session;
 }
 
-export function listCreateHandlers(delegate: AnyDelegate, orderBy: unknown = { order: "asc" }) {
+export function listCreateHandlers(delegate: AnyDelegate, orderBy: unknown = { order: "asc" }, role?: "ADMIN") {
   return {
     async GET() {
-      const session = await requireSession();
+      const session = await requireSession(role);
       if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       const items = await delegate.findMany({ orderBy });
       return NextResponse.json(items);
     },
     async POST(request: Request) {
-      const session = await requireSession();
+      const session = await requireSession(role);
       if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       const data = await request.json().catch(() => null);
       if (!data) return NextResponse.json({ error: "Invalid body" }, { status: 400 });
@@ -39,10 +39,10 @@ export function listCreateHandlers(delegate: AnyDelegate, orderBy: unknown = { o
   };
 }
 
-export function itemHandlers(delegate: AnyDelegate) {
+export function itemHandlers(delegate: AnyDelegate, role?: "ADMIN") {
   return {
     async PUT(request: Request, context: { params: Promise<{ id: string }> }) {
-      const session = await requireSession();
+      const session = await requireSession(role);
       if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       const { id } = await context.params;
       const data = await request.json().catch(() => null);
@@ -53,7 +53,7 @@ export function itemHandlers(delegate: AnyDelegate) {
       return NextResponse.json(item);
     },
     async DELETE(_request: Request, context: { params: Promise<{ id: string }> }) {
-      const session = await requireSession();
+      const session = await requireSession(role);
       if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
       const { id } = await context.params;
       const before = await delegate.findUnique?.({ where: { id } });

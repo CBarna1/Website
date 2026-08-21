@@ -3,14 +3,14 @@ import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/admin-crud";
 
 export async function GET() {
-  const session = await requireSession();
+  const session = await requireSession("ADMIN");
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const settings = await prisma.siteSettings.findUnique({ where: { id: 1 } });
   return NextResponse.json(settings);
 }
 
 export async function PUT(request: Request) {
-  const session = await requireSession();
+  const session = await requireSession("ADMIN");
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   const data = await request.json().catch(() => null);
   if (!data) return NextResponse.json({ error: "Invalid body" }, { status: 400 });

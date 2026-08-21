@@ -26,12 +26,12 @@ import LogoutButton from "@/components/admin/LogoutButton";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/audit-logs", label: "Activity Logs", icon: ClipboardList },
+  { href: "/admin/audit-logs", label: "Activity Logs", icon: ClipboardList, adminOnly: true },
   { href: "/admin/submissions", label: "Contact Submissions", icon: MessageSquare },
   { href: "/admin/newsletter", label: "Newsletter", icon: Mail },
-  { href: "/admin/settings", label: "Site Settings", icon: Settings },
+  { href: "/admin/settings", label: "Site Settings", icon: Settings, adminOnly: true },
   { href: "/admin/services", label: "Services", icon: Briefcase },
-  { href: "/admin/products", label: "Products", icon: Package },
+  { href: "/admin/products", label: "Products", icon: Package, adminOnly: true },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { href: "/admin/why-choose-us", label: "Why Choose Us", icon: Star },
   { href: "/admin/process-steps", label: "Process Steps", icon: Zap },
@@ -108,7 +108,7 @@ export default function AdminLayoutContent({
         </div>
 
         <nav className="flex-1 space-y-1 px-3 py-4 text-sm overflow-y-auto">
-          {navItems.map((item) => {
+          {navItems.filter((item) => !item.adminOnly || session.role === "ADMIN").map((item) => {
             const Icon = item.icon;
             return (
               <Link

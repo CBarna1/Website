@@ -11,7 +11,7 @@ const allowedTypes = new Map([
 ]);
 
 export async function POST(request: Request) {
-  const session = await requireSession();
+  const session = await requireSession("ADMIN");
   if (!session) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const formData = await request.formData();

@@ -34,7 +34,8 @@ export async function middleware(request: NextRequest) {
     const { payload } = await jwtVerify(token, getSecretKey());
     const role = payload.role as string;
 
-    if (pathname.startsWith("/admin/users") && role !== "ADMIN") {
+    const adminOnlyPaths = ["/admin/users", "/admin/products", "/admin/settings", "/admin/audit-logs"];
+    if (adminOnlyPaths.some((path) => pathname.startsWith(path)) && role !== "ADMIN") {
       return NextResponse.redirect(new URL("/admin", request.url));
     }
 
