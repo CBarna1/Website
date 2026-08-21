@@ -16,6 +16,7 @@ import {
   Settings,
   ShoppingCart,
   Star,
+  ClipboardList,
   Users as UsersIcon,
   Zap,
 } from "lucide-react";
@@ -25,6 +26,7 @@ import LogoutButton from "@/components/admin/LogoutButton";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/audit-logs", label: "Activity Logs", icon: ClipboardList },
   { href: "/admin/submissions", label: "Contact Submissions", icon: MessageSquare },
   { href: "/admin/newsletter", label: "Newsletter", icon: Mail },
   { href: "/admin/settings", label: "Site Settings", icon: Settings },

@@ -13,7 +13,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <div aria-hidden="true" className="light-background-gradient pointer-events-none fixed inset-0 z-[1] dark:hidden" />
       <div className="relative z-10 flex min-h-full flex-col">
           <Navbar phonePrimary={settings.phoneSecondary} />
-          <main className="flex flex-1 flex-col">{children}</main>
+          <main id="main-content" className="flex flex-1 flex-col">{children}</main>
           <Footer
             about={settings.about}
             address={settings.address}

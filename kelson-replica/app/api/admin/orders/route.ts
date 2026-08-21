@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { requireSession } from "@/lib/admin-crud";
+import { recordAudit } from "@/lib/audit";
 
 export async function GET() {
   const session = await requireSession();
@@ -23,7 +24,9 @@ export async function PUT(request: Request) {
     return NextResponse.json({ error: "A valid order and status are required." }, { status: 400 });
   }
 
+  const before = await prisma.order.findUnique({ where: { id } });
   const order = await prisma.order.update({ where: { id }, data: { status: status as never, ...(notes !== undefined ? { notes } : {}) } });
+  await recordAudit({ session, action: "UPDATE", entity: "Order", entityId: id, before, after: order, request });
   return NextResponse.json(order);
 }
 
@@ -35,6 +38,8 @@ export async function DELETE(request: Request) {
   const id = typeof body?.id === "string" ? body.id : "";
   if (!id) return NextResponse.json({ error: "A valid order is required." }, { status: 400 });
 
+  const before = await prisma.order.findUnique({ where: { id }, include: { printOrder: true, items: true } });
   await prisma.order.delete({ where: { id } });
+  await recordAudit({ session, action: "DELETE", entity: "Order", entityId: id, before, request });
   return NextResponse.json({ ok: true });
 }

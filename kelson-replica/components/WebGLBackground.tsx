@@ -1,6 +1,20 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
+
+function subscribeToTheme(callback: () => void) {
+  const observer = new MutationObserver(callback);
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+  return () => observer.disconnect();
+}
+
+function getThemeSnapshot() {
+  return document.documentElement.classList.contains("dark");
+}
+
+function getServerThemeSnapshot() {
+  return false;
+}
 
 const VERTEX_SHADER = `
 attribute vec2 a_position;
@@ -55,17 +69,9 @@ export default function WebGLBackground({
 }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [supported, setSupported] = useState(true);
-  const [isDark, setIsDark] = useState(false);
+  const [imageReady, setImageReady] = useState(false);
+  const isDark = useSyncExternalStore(subscribeToTheme, getThemeSnapshot, getServerThemeSnapshot);
   const isVisible = theme === "dark" ? isDark : !isDark;
-
-  // Only show behind the dark theme; react live to the Navbar toggle
-  useEffect(() => {
-    const root = document.documentElement;
-    setIsDark(root.classList.contains("dark"));
-    const observer = new MutationObserver(() => setIsDark(root.classList.contains("dark")));
-    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     if (!isVisible) return;
@@ -132,7 +138,9 @@ export default function WebGLBackground({
       context.bindTexture(context.TEXTURE_2D, texture);
       context.pixelStorei(context.UNPACK_FLIP_Y_WEBGL, true);
       context.texImage2D(context.TEXTURE_2D, 0, context.RGBA, context.RGBA, context.UNSIGNED_BYTE, image);
+      setImageReady(true);
     };
+    image.onerror = () => setSupported(false);
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -151,6 +159,7 @@ export default function WebGLBackground({
 
     let frame = 0;
     let start: number | null = null;
+    let paused = document.visibilityState === "hidden";
 
     function render(now: number) {
       resize();
@@ -178,13 +187,24 @@ export default function WebGLBackground({
       frame = requestAnimationFrame(render);
     }
 
-    frame = requestAnimationFrame(render);
+    function handleVisibilityChange() {
+      paused = document.visibilityState === "hidden";
+      if (!paused && frame === 0) frame = requestAnimationFrame(render);
+      if (paused) {
+        cancelAnimationFrame(frame);
+        frame = 0;
+      }
+    }
+
+    if (!paused) frame = requestAnimationFrame(render);
     window.addEventListener("resize", resize);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
 
     return () => {
       cancelled = true;
       cancelAnimationFrame(frame);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       context.deleteTexture(texture);
       context.deleteProgram(program);
       context.deleteShader(vertexShader);
@@ -195,11 +215,11 @@ export default function WebGLBackground({
 
   if (!isVisible) return null;
 
-  if (!supported) {
+  if (!supported || !imageReady) {
     return (
-      <div aria-hidden="true" className="fixed inset-0 -z-10 overflow-hidden">
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center"
+          className="webgl-fallback-drift absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('${src}')` }}
         />
         <div
@@ -210,5 +230,5 @@ export default function WebGLBackground({
     );
   }
 
-  return <canvas ref={canvasRef} aria-hidden="true" className="fixed inset-0 z-0 h-full w-full" style={{ display: "block" }} />;
+  return <canvas ref={canvasRef} aria-hidden="true" className="pointer-events-none fixed inset-0 z-0 h-full w-full" style={{ display: "block" }} />;
 }

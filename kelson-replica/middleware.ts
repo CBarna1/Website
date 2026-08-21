@@ -7,12 +7,23 @@ function getSecretKey() {
   return new TextEncoder().encode(process.env.AUTH_SECRET);
 }
 
+function isMobileUserAgent(userAgent: string) {
+  return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(userAgent);
+}
+
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const userAgent = request.headers.get("user-agent") ?? "";
 
-  if (pathname === "/admin/login") {
+  if (pathname === "/admin/desktop-only") {
     return NextResponse.next();
   }
+
+  if (isMobileUserAgent(userAgent)) {
+    return NextResponse.redirect(new URL("/admin/desktop-only", request.url));
+  }
+
+  if (pathname === "/admin/login") return NextResponse.next();
 
   const token = request.cookies.get(COOKIE_NAME)?.value;
   if (!token) {

@@ -44,3 +44,6 @@ next-env.d.ts
 prisma/*.db
 prisma/*.db-journal
 .seed-admin-password.txt
+
+# private print order documents
+/storage/print-orders/

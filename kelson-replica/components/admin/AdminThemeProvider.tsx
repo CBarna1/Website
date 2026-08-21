@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useLayoutEffect, useState } from "react";
 import WebGLBackground from "@/components/WebGLBackground";
 
 const AdminThemeContext = createContext<{ isDark: boolean }>({ isDark: true });
@@ -12,7 +12,7 @@ export function useAdminTheme() {
 export default function AdminThemeProvider({ children }: { children: React.ReactNode }) {
   const [isDark, setIsDark] = useState(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const syncTheme = () => {
       const saved = localStorage.getItem("theme");
       const prefersDark = saved === "dark";

@@ -49,6 +49,30 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
+.skip-link {
+  position: fixed;
+  left: 1rem;
+  top: 1rem;
+  z-index: 100;
+  transform: translateY(-200%);
+  border-radius: 0.5rem;
+  background: #1a41e6;
+  color: white;
+  padding: 0.65rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  transition: transform 150ms ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+:where(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid #14b8a6;
+  outline-offset: 3px;
+}
+
 form:has(input[name="fileName"]) input[name="fileName"],
 form:has(input[name="fileName"]) input[name="copies"],
 form:has(input[name="fileName"]) select[name="paperSize"],
@@ -124,6 +148,21 @@ form:has(input[name="fileName"]) textarea[name="printInstructions"] {
   animation: hero-drift 14s ease-in-out infinite;
 }
 
+.webgl-fallback-drift {
+  animation: webgl-fallback-drift 18s ease-in-out infinite;
+}
+
+@keyframes webgl-fallback-drift {
+  0%,
+  100% {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: scale(1.1) translate3d(-1.5%, 1%, 0);
+  }
+}
+
 .light-background-gradient {
   background: linear-gradient(
     115deg,
@@ -172,6 +211,45 @@ form:has(input[name="fileName"]) textarea[name="printInstructions"] {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+@media print {
+  @page {
+    margin: 14mm;
+  }
+
+  body:has(.quote-sheet) {
+    background: white !important;
+  }
+
+  body:has(.quote-sheet) > *:not(:has(.quote-page)),
+  body:has(.quote-sheet) header:not(.quote-header),
+  body:has(.quote-sheet) footer,
+  body:has(.quote-sheet) canvas,
+  body:has(.quote-sheet) .light-background-gradient,
+  body:has(.quote-sheet) .page-loader,
+  body:has(.quote-sheet) [aria-hidden="true"] {
+    display: none !important;
+  }
+
+  body:has(.quote-sheet) .quote-page {
+    display: block !important;
+  }
+
+  body:has(.quote-sheet) .quote-page {
+    max-width: none;
+    padding: 0;
+  }
+
+  body:has(.quote-sheet) .quote-sheet {
+    box-shadow: none;
+    padding: 0;
+    width: 100%;
+  }
+
+  body:has(.quote-sheet) .print\:hidden {
+    display: none !important;
   }
 }
 

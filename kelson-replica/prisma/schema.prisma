@@ -30,6 +30,23 @@ model User {
   name         String
   role         Role     @default(EDITOR)
   createdAt    DateTime @default(now())
+  auditLogs    AuditLog[]
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  actorId     String
+  actorName   String
+  actorEmail  String
+  action      String
+  entity      String
+  entityId    String?
+  beforeData  String?
+  afterData   String?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+  actor       User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
 }
 
 model ContactSubmission {
@@ -138,6 +155,7 @@ model Product {
 model Order {
   id             String      @id @default(cuid())
   orderNumber    String      @unique
+  trackingToken  String      @unique @default(cuid())
   customerName   String
   customerEmail  String
   customerPhone  String
@@ -170,6 +188,9 @@ model PrintOrder {
   orderId       String  @unique
   fileName      String
   filePath      String
+  pageCount     Int     @default(1)
+  pagesToPrint  Int     @default(1)
+  printCost     Int     @default(10)
   paperSize     String
   colorMode     String
   copies        Int

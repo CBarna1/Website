@@ -1,4 +1,4 @@
-import ProductCard from "@/components/ProductCard";
+import ProductCatalog from "@/components/ProductCatalog";
 import PageHero from "@/components/PageHero";
 import { getProducts } from "@/lib/data";
 import Link from "next/link";
@@ -14,9 +14,7 @@ export default async function ProductsPage() {
         <div className="mx-auto max-w-7xl">
           <p className="text-sm font-semibold uppercase tracking-wide text-brand-600">Shop with Kelson</p>
           <h1 className="mt-2 text-3xl font-bold text-slate-900 dark:text-white">Business technology and support</h1>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product, index) => <ProductCard key={product.id} product={product} styleDelay={`${index * 180}ms`} />)}
-          </div>
+          <ProductCatalog products={products} />
 
           <div className="mt-20 grid gap-10 border-t border-slate-200 pt-16 dark:border-slate-700 lg:grid-cols-[1fr_0.8fr]">
             <div>

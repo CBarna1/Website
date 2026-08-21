@@ -43,6 +43,16 @@ export default async function ContactPage() {
               info@kelson.co.zm
             </li>
           </ul>
+          <div className="mt-10 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl border border-slate-200 bg-white/65 p-4 dark:border-slate-700 dark:bg-slate-900/45">
+              <p className="text-sm font-semibold text-slate-900 dark:text-white">Typical response</p>
+              <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">Our team aims to respond to new enquiries within one business day.</p>
+            </div>
+            <a href="https://wa.me/26095572911" className="rounded-xl border border-accent-200 bg-accent-50/70 p-4 transition hover:border-accent-400 dark:border-accent-800 dark:bg-accent-950/30">
+              <p className="text-sm font-semibold text-accent-800 dark:text-accent-300">Chat on WhatsApp</p>
+              <p className="mt-1 text-xs text-accent-700 dark:text-accent-400">Start a quick conversation with our team.</p>
+            </a>
+          </div>
         </div>
 
         <ContactForm />

@@ -1,8 +1,11 @@
 ﻿import { NextResponse } from "next/server";
 import { sendContactNotification } from "@/lib/email";
 import { prisma } from "@/lib/prisma";
+import { getClientKey, rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
+  const limit = rateLimit(`contact:${getClientKey(request)}`, 5, 15 * 60 * 1000);
+  if (!limit.allowed) return NextResponse.json({ error: "Too many messages. Please try again later." }, { status: 429, headers: { "Retry-After": String(limit.retryAfter) } });
   const body = await request.json().catch(() => null);
   const name = typeof body?.name === "string" ? body.name.trim() : "";
   const email = typeof body?.email === "string" ? body.email.trim() : "";
