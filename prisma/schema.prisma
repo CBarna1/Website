@@ -1,0 +1,202 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAYMENT_PROCESSING
+  PAID
+  PROCESSING
+  READY_FOR_PICKUP
+  OUT_FOR_DELIVERY
+  COMPLETED
+  CANCELLED
+}
+
+model User {
+  id           String   @id @default(cuid())
+  email        String   @unique
+  passwordHash String
+  name         String
+  role         Role     @default(EDITOR)
+  createdAt    DateTime @default(now())
+  auditLogs    AuditLog[]
+}
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  actorId     String
+  actorName   String
+  actorEmail  String
+  action      String
+  entity      String
+  entityId    String?
+  beforeData  String?
+  afterData   String?
+  ipAddress   String?
+  userAgent   String?
+  createdAt   DateTime @default(now())
+  actor       User     @relation(fields: [actorId], references: [id], onDelete: Cascade)
+}
+
+model ContactSubmission {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  subject   String
+  message   String
+  createdAt DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id             Int    @id @default(1)
+  tagline        String
+  blurb          String
+  about          String
+  phonePrimary   String
+  phoneSecondary String
+  address        String
+  hours          String
+}
+
+model Service {
+  id          String @id @default(cuid())
+  icon        String
+  title       String
+  description String
+  order       Int    @default(0)
+}
+
+model WhyChooseUsItem {
+  id          String @id @default(cuid())
+  title       String
+  description String
+  order       Int    @default(0)
+}
+
+model ProcessStep {
+  id          String @id @default(cuid())
+  step        String
+  title       String
+  description String
+  order       Int    @default(0)
+}
+
+model Stat {
+  id     String @id @default(cuid())
+  value  Int
+  suffix String
+  label  String
+  order  Int    @default(0)
+}
+
+model Testimonial {
+  id    String @id @default(cuid())
+  name  String
+  role  String
+  quote String
+  order Int    @default(0)
+}
+
+model BlogPost {
+  id      String @id @default(cuid())
+  title   String
+  slug    String @unique
+  excerpt String
+  image   String @default("")
+  order   Int    @default(0)
+}
+
+model ClientLogo {
+  id    String @id @default(cuid())
+  name  String
+  src   String
+  order Int    @default(0)
+}
+
+model Brand {
+  id    String @id @default(cuid())
+  name  String
+  src   String
+  order Int    @default(0)
+}
+
+model Product {
+  id          String      @id @default(cuid())
+  name        String
+  slug        String      @unique
+  description String
+  price       Int
+  image       String      @default("")
+  category    String      @default("Product")
+  stock       Int         @default(0)
+  active      Boolean     @default(true)
+  order       Int         @default(0)
+  orderItems  OrderItem[]
+  createdAt   DateTime    @default(now())
+}
+
+model Order {
+  id             String      @id @default(cuid())
+  orderNumber    String      @unique
+  trackingToken  String      @unique @default(cuid())
+  customerName   String
+  customerEmail  String
+  customerPhone  String
+  fulfillment    String
+  deliveryAddress String     @default("")
+  deliveryFee    Int         @default(0)
+  subtotal       Int
+  total          Int
+  status         OrderStatus @default(PENDING_PAYMENT)
+  notes          String      @default("")
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  items          OrderItem[]
+  printOrder     PrintOrder?
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  productId String?
+  name      String
+  quantity  Int
+  unitPrice Int
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product   Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+}
+
+model PrintOrder {
+  id            String  @id @default(cuid())
+  orderId       String  @unique
+  fileName      String
+  filePath      String
+  pageCount     Int     @default(1)
+  pagesToPrint  Int     @default(1)
+  printCost     Int     @default(10)
+  paperSize     String
+  colorMode     String
+  copies        Int
+  sides         String
+  paperType     String
+  finishing     String
+  instructions  String  @default("")
+  order         Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+}
