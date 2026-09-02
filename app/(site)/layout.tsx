@@ -1,6 +1,7 @@
 ﻿import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import WebGLBackground from "@/components/WebGLBackground";
+import IntelligentChatbot from "@/components/IntelligentChatbot";
 import { getSiteSettings } from "@/lib/data";
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
@@ -22,6 +23,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
             hours={settings.hours}
           />
       </div>
+      <IntelligentChatbot />
     </>
   );
 }

@@ -1,4 +1,6 @@
-﻿import { type ReactNode } from "react";
+﻿"use client";
+
+import { type ReactNode, useEffect, useRef } from "react";
 
 export default function Section({
   eyebrow,
@@ -15,8 +17,30 @@ export default function Section({
   children?: ReactNode;
   className?: string;
 }) {
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            node.classList.add("is-visible");
+            observer.unobserve(node);
+          }
+        });
+      },
+      { threshold: 0.12 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className={`mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 ${className}`}>
+    <section ref={sectionRef} className={`animate-on-scroll mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 ${className}`}>
       <div className={center ? "mx-auto max-w-2xl text-center" : "max-w-2xl"}>
         {eyebrow && (
           <span className="text-sm font-semibold uppercase tracking-wider text-brand-600">

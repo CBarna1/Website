@@ -47,7 +47,7 @@ export default function Hero({ tagline, blurb }: { tagline: string; blurb: strin
         className="absolute inset-0 bg-gradient-to-br from-brand-950/95 via-brand-900/88 to-brand-600/72"
       />
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-24 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
-        <div className="motion-reveal relative">
+        <div className="hero-copy motion-reveal relative">
           <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-brand-100">
             We are an IT service agency
           </span>
@@ -58,13 +58,13 @@ export default function Hero({ tagline, blurb }: { tagline: string; blurb: strin
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/contact"
-              className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-800 shadow-lg transition hover:bg-brand-50"
+              className="btn-press inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-800 shadow-lg transition hover:bg-brand-50"
             >
               Get a Quote <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
+              className="btn-press inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition hover:bg-white/10"
             >
               Our Services
             </Link>
@@ -73,7 +73,7 @@ export default function Hero({ tagline, blurb }: { tagline: string; blurb: strin
 
         <div className="relative min-h-[390px]">
           <Scroll3D />
-          <div className="relative z-10 grid grid-cols-2 gap-4 pt-24 sm:grid-cols-2 lg:pt-12">
+          <div className="hero-cards relative z-10 grid grid-cols-2 gap-4 pt-24 sm:grid-cols-2 lg:pt-12">
           {heroCategories.map(({ icon: Icon, label, description }, index) => (
             <div
               key={label}

@@ -45,7 +45,7 @@ export default async function AdminDashboard() {
   const metrics = [
     { label: "Order value", value: `K ${totalValue.toLocaleString()}`, detail: `${orders.length} recent orders`, icon: ShoppingCart, tone: "text-brand-600" },
     { label: "Orders today", value: todayOrders.length, detail: "New orders received", icon: Activity, tone: "text-accent-600" },
-    { label: "Active products", value: products, detail: "Visible in catalog", icon: PackageCheck, tone: "text-amber-600" },
+    { label: "Active products", value: products, detail: "Visible in catalog", icon: PackageCheck, tone: "text-brand-600" },
     { label: "New enquiries", value: submissions, detail: "Last seven days", icon: Clock3, tone: "text-rose-600" },
   ];
 

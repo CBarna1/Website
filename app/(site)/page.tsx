@@ -113,7 +113,7 @@ export default async function Home() {
         </div>
         <Link
           href="/about"
-          className="mt-10 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700"
+          className="btn-press mt-10 inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700"
         >
           About Us <ArrowRight className="h-4 w-4" />
         </Link>
@@ -191,7 +191,7 @@ export default async function Home() {
           </p>
           <Link
             href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-lg transition hover:bg-brand-50"
+            className="btn-press inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-brand-700 shadow-lg transition hover:bg-brand-50"
           >
             Get a Quote <ArrowRight className="h-4 w-4" />
           </Link>
