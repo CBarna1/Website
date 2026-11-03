@@ -103,7 +103,9 @@ p {
   line-height: 1.7;
 }
 
-button {
+/* Not the header bar's buttons, which style themselves (components/Navbar.tsx); the theme toggle
+   has its own rule below. :where() keeps these rules as weak as plain "button". */
+button:where(:not(.site-header *)) {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -115,7 +117,7 @@ button {
   transition: all 0.2s ease;
 }
 
-button:hover {
+button:where(:not(.site-header *)):hover {
   background-color: #1531b3;
 }
 
