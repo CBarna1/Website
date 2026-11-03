@@ -17,6 +17,14 @@
   --color-brand-900: #0d1a52;
   --color-accent-500: #14b8a6;
   --color-accent-600: #0d9488;
+  /* Room kept at the top of every page for the floating header bar (components/Navbar.tsx). */
+  --header-space: 5rem;
+}
+
+@media (min-width: 64rem) {
+  :root {
+    --header-space: 5.5rem;
+  }
 }
 
 .dark {
@@ -117,22 +125,16 @@ button:focus-visible {
   outline-offset: 2px;
 }
 
-a {
+/* Not the header bar's links: they set their own colours, light and dark (components/Navbar.tsx).
+   :where() keeps these rules as weak as plain "a". */
+a:where(:not(.site-header *)) {
   color: #0b1b24;
   text-decoration: inherit;
   font-weight: 500;
 }
 
-a:hover {
+a:where(:not(.site-header *)):hover {
   color: #1a41e6;
-}
-
-.site-navbar a {
-  color: #ffffff;
-}
-
-.site-navbar a:hover {
-  color: #d9e6ff;
 }
 
 .hero-copy h1 {

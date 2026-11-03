@@ -33,7 +33,8 @@ const heroCategories = [
 
 export default function Hero({ tagline, blurb }: { tagline: string; blurb: string }) {
   return (
-    <section className="relative overflow-hidden">
+    // Pulled up under the floating header bar, with the same room added back at the top.
+    <section className="relative -mt-[var(--header-space)] overflow-hidden pt-[var(--header-space)]">
       <Image
         src="/happy-man-using-his-tablet-home-couch.jpg"
         alt=""

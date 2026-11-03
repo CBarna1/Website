@@ -52,15 +52,18 @@ export async function getProductBySlug(slug: string) {
   return prisma.product.findUnique({ where: { slug, active: true } });
 }
 
+// `short` is the label in the desktop header bar; the phone menu and footer have room for the full `label`.
 export const nav = [
-  { label: "Home", href: "/" },
-  { label: "About Us", href: "/about" },
-  { label: "Our Services", href: "/services" },
-  { label: "Products & Services", href: "/products" },
-  { label: "Brands we Stock", href: "/brands" },
-  { label: "Contact Us", href: "/contact" },
-  { label: "Support", href: "/support" },
+  { label: "Home", short: "Home", href: "/" },
+  { label: "About Us", short: "About", href: "/about" },
+  { label: "Our Services", short: "Services", href: "/services" },
+  { label: "Products & Services", short: "Products", href: "/products" },
+  { label: "Brands we Stock", short: "Brands", href: "/brands" },
+  { label: "Contact Us", short: "Contact", href: "/contact" },
+  { label: "Support", short: "Support", href: "/support" },
 ];
 
 export const companyName = "Kelson Innovations";
 export const companyLogo = "/logo-m.png";
+// The circle mark on its own, for the header bar.
+export const companyMark = "/logo-title.png";

@@ -3,7 +3,8 @@ import Image from "next/image";
 
 export default function PageHero({ title, breadcrumb }: { title: string; breadcrumb: string }) {
   return (
-    <section className="page-hero relative overflow-hidden py-16 text-center">
+    // Pulled up under the floating header bar, with the same room added back above the title.
+    <section className="page-hero relative -mt-[var(--header-space)] overflow-hidden pb-16 pt-[calc(var(--header-space)+4rem)] text-center">
       <Image
         src="/happy-man-using-his-tablet-home-couch.jpg"
         alt=""
