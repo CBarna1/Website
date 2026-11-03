@@ -48,13 +48,13 @@ export default function Hero({ tagline, blurb }: { tagline: string; blurb: strin
       />
       <div className="mx-auto grid max-w-7xl gap-12 px-4 py-24 sm:px-6 lg:grid-cols-2 lg:items-center lg:px-8">
         <div className="hero-copy motion-reveal relative">
-          <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-brand-100">
+          <span className="inline-flex items-center rounded-full bg-white/10 px-4 py-1.5 text-sm font-medium text-white">
             We are an IT service agency
           </span>
           <h1 className="mt-6 max-w-xl text-balance text-4xl font-extrabold leading-tight text-white sm:text-5xl">
             {tagline}
           </h1>
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-brand-100">{blurb}</p>
+          <p className="mt-6 max-w-lg text-lg leading-relaxed text-white">{blurb}</p>
           <div className="mt-8 flex flex-wrap gap-4">
             <Link
               href="/contact"

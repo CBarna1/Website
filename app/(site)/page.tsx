@@ -181,12 +181,12 @@ export default async function Home() {
         </Section>
       </section>
 
-      <section className="bg-brand-600 py-16">
+      <section className="homepage-cta bg-brand-600 py-16">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-6 px-4 text-center sm:px-6 lg:px-8">
           <h2 className="text-3xl font-bold text-white sm:text-4xl">
             Looking for the best IT business solutions?
           </h2>
-          <p className="max-w-xl text-brand-100">
+          <p className="max-w-xl text-white">
             Get in touch with our team for a tailored quote on any of our IT products or services.
           </p>
           <Link

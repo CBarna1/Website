@@ -127,14 +127,16 @@ async function main() {
       data: [
         { name: "Bwino Milling Co. Ltd", src: "/clients/bwino-milling.webp", order: 0 },
         { name: "Mimosa Resources", src: "/clients/mimosa-resources.jpg", order: 1 },
-        { name: "Zam Trade Sales Management", src: "/clients/zam-trade.webp", order: 2 },
-        { name: "HCAZ - Lusaka Hospitality", src: "/clients/lusaka-hospitality.webp", order: 4 },
-        { name: "Kariba", src: "/clients/kariba.png", order: 5 },
       ],
     });
   }
 
+  await prisma.clientLogo.deleteMany({
+    where: { src: { in: ["/clients/zam-trade.webp", "/clients/lusaka-hospitality.webp", "/clients/kariba.png"] } },
+  });
+
   const additionalClients = [
+    { name: "Levy Mwanawasa University", src: "/clients/logo.png", order: 2 },
     { name: "Zambian Cancer Society", src: "/clients/zcs-logo42-01-1-e1661881394942.png", order: 6 },
     { name: "Aquarite Purified Water", src: "/clients/OIP.webp", order: 7 },
     { name: "Southern Sun Ridgeway", src: "/clients/5f49543d8d9c2.png", order: 8 },

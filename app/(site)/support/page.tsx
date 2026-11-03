@@ -1,7 +1,7 @@
-﻿import Link from "next/link";
-import { LifeBuoy, Clock, ShieldCheck } from "lucide-react";
+﻿import { LifeBuoy, Clock, ShieldCheck } from "lucide-react";
 import Section from "@/components/Section";
 import PageHero from "@/components/PageHero";
+import SupportTicketForm from "@/components/SupportTicketForm";
 
 export const metadata = {
   title: "Support | Kelson Innovations",
@@ -50,13 +50,14 @@ export default function SupportPage() {
           ))}
         </div>
 
-        <div className="mt-10">
-          <Link
-            href="/contact"
-            className="inline-flex items-center gap-2 rounded-full bg-brand-600 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-700"
-          >
-            Submit a Support Ticket
-          </Link>
+        <div id="ticket" className="mx-auto mt-14 max-w-3xl scroll-mt-24">
+          <h3 className="text-2xl font-bold text-slate-900 dark:text-white">Submit a support ticket</h3>
+          <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
+            You will get a ticket number by email. For a system that is down and stopping sales, please also call us.
+          </p>
+          <div className="mt-6">
+            <SupportTicketForm />
+          </div>
         </div>
       </Section>
     </>

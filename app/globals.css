@@ -139,8 +139,15 @@ a:hover {
   color: #ffffff;
 }
 
-.hero-copy > p {
-  color: #d9e6ff;
+.hero-copy > p,
+.homepage-cta p,
+.page-hero p,
+.site-footer,
+.site-footer h3,
+.site-footer p,
+.site-footer a,
+.site-footer li {
+  color: #ffffff;
 }
 
 .hero-copy a.text-white {

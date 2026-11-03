@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function PageHero({ title, breadcrumb }: { title: string; breadcrumb: string }) {
   return (
-    <section className="relative overflow-hidden py-16 text-center">
+    <section className="page-hero relative overflow-hidden py-16 text-center">
       <Image
         src="/happy-man-using-his-tablet-home-couch.jpg"
         alt=""
@@ -18,7 +18,7 @@ export default function PageHero({ title, breadcrumb }: { title: string; breadcr
       />
       <div className="relative mx-auto max-w-3xl px-4">
         <h1 className="text-4xl font-bold text-white">{title}</h1>
-        <p className="mt-3 text-brand-200">
+        <p className="mt-3 text-white">
           <Link href="/" className="hover:text-white">
             Home
           </Link>{" "}

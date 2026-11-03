@@ -86,7 +86,7 @@ export default function ProductCatalog({ products }: { products: Product[] }) {
       <p className="mt-4 text-sm text-slate-500">Showing {visible.length} of {products.length} products</p>
       <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {visible.map((product, index) => (
-          <ProductCard key={product.id} product={product} styleDelay={`${index * 180}ms`} onQuickView={setSelectedProduct} />
+          <ProductCard key={product.id} product={product} styleDelay={`${index * 180}ms`} onQuickView={() => setSelectedProduct(product)} />
         ))}
       </div>
       {visible.length === 0 && (
