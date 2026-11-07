@@ -1,4 +1,4 @@
-﻿import { MapPin, Phone, Clock, Mail } from "lucide-react";
+import { MapPin, Phone, Clock, Mail } from "lucide-react";
 import ContactForm from "@/components/ContactForm";
 import PageHero from "@/components/PageHero";
 import { getSiteSettings } from "@/lib/data";
@@ -18,8 +18,13 @@ export default async function ContactPage() {
         <div>
           <h2 className="text-2xl font-bold text-slate-900 dark:text-white">Get in touch</h2>
           <p className="mt-3 text-slate-600 dark:text-slate-300">
-            Have a question about our IT solutions? Send us a message and our team will get back
-            to you.
+            We envision a future filled with growth, innovation, and success for our company. Thank
+            you for the opportunity to serve you, and we invite your continued support as we strive
+            to make a positive impact in the world of technology.
+          </p>
+          <p className="mt-3 text-slate-600 dark:text-slate-300">
+            To discover how we can deliver the best possible solution for your company, reach out to
+            us today. We&apos;re here to help you succeed.
           </p>
 
           <ul className="mt-8 space-y-5 text-sm text-slate-700 dark:text-slate-300">
@@ -48,7 +53,7 @@ export default async function ContactPage() {
               <p className="text-sm font-semibold text-slate-900 dark:text-white">Typical response</p>
               <p className="mt-1 text-xs leading-relaxed text-slate-600 dark:text-slate-400">Our team aims to respond to new enquiries within one business day.</p>
             </div>
-            <a href="https://wa.me/26095572911" className="rounded-xl border border-accent-200 bg-accent-50/70 p-4 transition hover:border-accent-400 dark:border-accent-800 dark:bg-accent-950/30">
+            <a href="https://wa.me/260955729111" className="rounded-xl border border-accent-200 bg-accent-50/70 p-4 transition hover:border-accent-400 dark:border-accent-800 dark:bg-accent-950/30">
               <p className="text-sm font-semibold text-accent-800 dark:text-accent-300">Chat on WhatsApp</p>
               <p className="mt-1 text-xs text-accent-700 dark:text-accent-400">Start a quick conversation with our team.</p>
             </a>

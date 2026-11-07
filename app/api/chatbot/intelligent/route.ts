@@ -5,7 +5,7 @@ const SYSTEM_PROMPT = `You are an intelligent support chatbot for Kelson Innovat
 
 COMPANY INFO:
 - Name: Kelson Innovations
-- Location: 15 New Kasama, Off Leopards Hill Rd, Lusaka, Zambia
+- Location: Woodlands Mall, Shop Number 16D, Lusaka, Zambia
 - Phone: +260 211 261 000
 - Email: sales@kelson.co.zm
 - Hours: Monday-Saturday 8am-5pm, Closed Sunday
